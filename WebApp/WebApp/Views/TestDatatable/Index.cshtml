@@ -1,0 +1,102 @@
+﻿@model List<WebApp.Controllers.Assessor>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<div>
+    @Html.ActionLink("FAQ", "FAQ")
+</div>
+<div class="panel panel-default">
+    <table id="myTable" class="table table-striped table-bordered" width="100%" cellspacing="0">
+        <thead class="btn-primary">
+            <tr class="">
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>GrantId</th>
+                <th>Preferred</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var person in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(m => person.Firstname)</td>
+                    <td>@Html.DisplayFor(m => person.Lastname)</td>
+                    <td>@Html.DisplayFor(m => person.GrantId)</td>
+                    <td><input class="check-box" type="checkbox" value="@person.GrantId" /></td>
+                </tr>
+            }
+            
+        </tbody>
+    </table>
+</div>
+<div>
+    <button id="remove" type="button">Remove</button>
+</div>
+
+@section scripts{ 
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var url = '@Url.Action("LoadData")';
+            console.log(url);
+
+            $('#myTable').DataTable();
+            //$('#myTable').removeClass( 'display' ).addClass('table table-striped table-bordered');
+        //});
+            //    $("#myTable").DataTable({
+            //        "processing": true, // for show progress bar
+            //        //"serverSide": true, // for process server side
+            //        "filter": false, // this is for disable filter (search box)
+            //        "orderMulti": false, // for disable multiple column at once
+            //        "ajax": {
+            //            "url": url,
+            //            "type": "GET",
+            //            "datatype": "json",
+            //            //success: function (msg) {
+            //            //    console.log(msg);
+            //            //},
+            //            error: function (msg) {
+            //                console.log(msg);
+            //            }
+            //        },
+            //        "columns": [
+            //                { "data": "Firstname", "autoWidth": true },
+            //                { "data": "Lastname",  "autoWidth": true },
+            //                { "data": "GrantId", "autoWidth": true },
+            //                { "data": "Preferred", "autoWidth": true }
+            //        ]
+            //});
+
+            @*$("#myTable").DataTable({
+                bProcessing: true,
+                sAjaxSource: '@Url.Action("LoadData")'
+            });*@
+
+            @*$(document).ready(function () {
+                var table = $('#list-of-model').DataTable({
+                    "ajax": {
+                        "url": "@Url.Action("list", "devices")",
+                    "type": "POST"
+                },
+                    "deferRender": true,
+                "serverSide": true,
+                "searchDelay": 800,
+                "autoWidth": true,
+                "stateSave": true
+            });*@
+
+            $("#remove").on("click", function () {
+                $('input:checked').each(function () {
+                    $(this).closest('tr').remove();
+                });
+            });
+
+            //https://datatables.net/forums/discussion/26002/asp-net-mvc5-and-datatables-for-a-beginner-what-goes-where
+            //https://github.com/wenzhixin/bootstrap-table
+            //https://github.com/hhurz/tableExport.jquery.plugin/blob/master/tableExport.js
+       });
+    </script>
+}
